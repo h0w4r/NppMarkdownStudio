@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.20)
+project(NppMarkdownStudio VERSION 1.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_definitions(-DUNICODE -D_UNICODE -DNOMINMAX -DWIN32_LEAN_AND_MEAN)
+
+add_library(NppMarkdownStudio SHARED
+    NppMarkdownStudio.cpp
+    NppMarkdownStudio.h
+)
+
+target_link_libraries(NppMarkdownStudio PRIVATE
+    shlwapi
+    comctl32
+    comdlg32
+    user32
+    gdi32
+    shell32
+    ole32
+)
+
+# Si WebView2 SDK está presente vía NuGet o vcpkg, lo enlaza automáticamente
+find_path(WEBVIEW2_INCLUDE_DIR WebView2.h)
+find_library(WEBVIEW2_LIB WebView2LoaderStatic.lib WebView2Loader.dll.lib)
+if(WEBVIEW2_INCLUDE_DIR AND WEBVIEW2_LIB)
+    target_include_directories(NppMarkdownStudio PRIVATE ${WEBVIEW2_INCLUDE_DIR})
+    target_link_libraries(NppMarkdownStudio PRIVATE ${WEBVIEW2_LIB})
+    message(STATUS "WebView2 SDK detectado y enlazado: ${WEBVIEW2_LIB}")
+endif()
+
+set_target_properties(NppMarkdownStudio PROPERTIES
+    PREFIX ""
+    OUTPUT_NAME "NppMarkdownStudio"
+)

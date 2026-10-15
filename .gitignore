@@ -1,0 +1,24 @@
+# Carpetas de compilación CMake y Visual Studio
+build/
+out/
+.vs/
+x64/
+x86/
+ARM64/
+Debug/
+Release/
+RelWithDebInfo/
+MinSizeRel/
+
+# Archivos temporales y binarios de usuario
+*.user
+*.suo
+*.aps
+*.pch
+*.pdb
+*.ilk
+*.exp
+*.obj
+*.ipch
+*.db
+packages/
